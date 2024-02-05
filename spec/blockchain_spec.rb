@@ -1,6 +1,6 @@
 # blockchain_spec.rb
-require_relative '../blockchain'  # adjust this path to the correct one for your project
-require_relative '../block'  # adjust this path to the correct one for your project
+require_relative '../src/blockchain'  # adjust this path to the correct one for your project
+require_relative '../src/block'  # adjust this path to the correct one for your project
 
 RSpec.describe Blockchain do
   subject { Blockchain.new }

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'blockchain'
+require_relative 'src/blockchain'
 
 my_blockchain = Blockchain.new
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 #
 require 'rspec'
-require_relative '../block'
+require_relative '../src/block'
 
 RSpec.describe Block do
   let(:index) { 1 }
