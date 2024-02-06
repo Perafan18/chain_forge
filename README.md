@@ -24,7 +24,7 @@ bundle exec rspec
 ## Usage
 
 ```bash
-ruby app.rb -p 1910
+ruby main.rb -p 1910
 ```
 
 ## API
@@ -38,11 +38,11 @@ curl -X POST http://localhost:1910/chain
 ### POST /chain/:chain_id/block
 
 ```bash
-curl -X POST -H 'Content-Type: application/json' -d '{"data": "your_data"}' http://localhost:1910/chain/65c196450bb5f7a56774438e/block
+curl -X POST -H 'Content-Type: application/json' -d '{"data": "your_data"}' http://localhost:1910/chain/:chain_id/block
 ```
 
 ### POST /chain/:chain_id/block/:block_id/valid
 
 ```bash
-curl -X POST -H 'Content-Type: application/json' -d '{"data": "your_data"}' http://localhost:1910/chain/65c196450bb5f7a56774438e/block/65c19ca00bb5f7a928578c83/valid
+curl -X POST -H 'Content-Type: application/json' -d '{"data": "your_data"}' http://localhost:1910/chain/:chain_id/block/:block_id/valid
 ```

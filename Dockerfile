@@ -4,8 +4,8 @@ WORKDIR /app
 
 COPY Gemfile Gemfile.lock ./
 
-RUN bundle install
+RUN gem install bundler -v 2.4.13 && bundle install
 
 COPY . .
 
-CMD ["ruby", "main.rb"]
+CMD ["bundle", "exec", "ruby", "main.rb", "-p", "1910"]
