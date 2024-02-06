@@ -1,46 +1,47 @@
 # frozen_string_literal: true
 
 require 'digest'
+require 'mongoid'
 
-# The Block class is part of a Blockchain that holds the digital
+# The `Block` is part of a `Blockchain` that holds the digital
 # information (the “block”) stored in a public database (the “chain”).
 #
-# Each block has an index, a timestamp (in Unix time), transaction
-# data, a hash pointer to the previous block’s hash, and a hash of its
-# own data.
-# It provides methods for creating and managing the blocks on the chain.
+# Each `Block` has an `index`, a `timestamp` (in Unix time, auto-generated during creation),
+# transaction `data`, a `hash` pointer to the previous block’s `hash`, and a `hash` of its own data.
 class Block
-  # Allow read access for instance variables
-  attr_reader :index, :data, :timestamp, :previous_hash, :hash
+  include Mongoid::Document
+  include Mongoid::Timestamps
 
-  # Initialize a new Block.
-  #
-  # @param [Integer] index The location of the block on the chain.
-  # @param [Object] data The information that is stored inside the block.
-  # @param [String] previous_hash The hash of the previous block in the chain.
-  def initialize(index, data, previous_hash)
-    @index = index
-    @timestamp = current_time
-    @data = data
-    @previous_hash = previous_hash
-    @hash = calculate_hash
-  end
+  # @!attribute [r] index
+  #   @return [Integer] The location of the `Block` on the `Blockchain`.
+  # @!attribute [r] data
+  #   @return [Object] The information that is stored inside the `Block`.
+  # @!attribute [r] previous_hash
+  #   @return [String] The `hash` of the previous `Block` in the `Blockchain`.
+  field :index, type: Integer
+  field :data, type: String
+  field :previous_hash, type: String
+  field :_hash, type: String, as: :hash
+
+  belongs_to :blockchain
+
+  # Before committing an instance to the Database, calculate the `hash` of the block.
+  before_validation :calculate_hash
 
   # Calculates the SHA256 hash of the block.
   #
-  # The hash is generated from the block's index, timestamp, transaction data,
-  # and the hash of the previous block.
+  # The `hash` is generated from the `Block`'s `index`, `timestamp`, transaction `data`
+  # and the `hash` of the previous block.
   #
-  # @return [String] the hash of the block
+  # @return [String] The `hash` of the block
   def calculate_hash
-    Digest::SHA256.hexdigest("#{@index}#{@timestamp}#{@data}#{@previous_hash}")
+    set_created_at
+    self._hash = Digest::SHA256.hexdigest("#{index}#{created_at.to_i}#{data}#{previous_hash}")
   end
 
-  private
-
-  # Get the current unix timestamp
-  # @return [Integer] current unix timestamp
-  def current_time
-    Time.now.to_i
+  # Validates the integrity of the `Block`'s data.
+  # @return [Boolean] `true` if the `Block`'s data is valid, `false` otherwise.
+  def valid_data?(data)
+    Digest::SHA256.hexdigest("#{index}#{created_at.to_i}#{data}#{previous_hash}") == _hash
   end
 end

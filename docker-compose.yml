@@ -1,0 +1,21 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    command: bundle exec ruby main.rb
+    depends_on:
+      - db
+    environment:
+      MONGO_URL: "mongodb://db:27017/${MONGO_DB_NAME}"
+  db:
+    image: mongo:latest
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+      - 27017:27017
+volumes:
+  mongodb_data:

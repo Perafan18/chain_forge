@@ -1,0 +1,13 @@
+development:
+  clients:
+    default:
+      database: <%= ENV['MONGO_DB_NAME'] %>
+      hosts:
+        - <%= "#{ENV['MONGO_DB_HOST']}:#{ENV['MONGO_DB_PORT']}" %>
+
+test:
+  clients:
+    default:
+      database: <%= ENV['MONGO_DB_NAME'] %>
+      hosts:
+        - <%= "#{ENV['MONGO_DB_HOST']}:#{ENV['MONGO_DB_PORT']}" %>
