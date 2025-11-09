@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo:latest
+        ports:
+          - 27017:27017
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.2.2
+        bundler-cache: true
+
+    - name: Install dependencies
+      run: bundle install
+
+    - name: Run RuboCop
+      run: bundle exec rubocop
+
+    - name: Run tests with coverage
+      env:
+        COVERAGE: true
+        MONGO_DB_HOST: localhost
+        MONGO_DB_PORT: 27017
+        MONGO_DB_NAME: chainforge_test
+        ENVIRONMENT: test
+      run: bundle exec rspec
+
+    - name: Check test coverage
+      run: |
+        if [ -f coverage/.last_run.json ]; then
+          echo "Coverage report generated successfully"
+        fi

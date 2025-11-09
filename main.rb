@@ -1,12 +1,20 @@
 # frozen_string_literal: true
+
 require 'sinatra'
 require 'json'
 require 'mongoid'
 require 'dotenv/load'
 require_relative 'src/blockchain'
+
 Mongoid.load!('./config/mongoid.yml', ENV['ENVIRONMENT'] || :development)
 
+# Set default content type for JSON responses
+before do
+  content_type :json if request.post?
+end
+
 get '/' do
+  content_type :html
   'Hello to ChainForge!'
 end
 
