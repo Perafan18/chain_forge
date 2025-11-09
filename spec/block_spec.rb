@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rspec'
-require_relative '../src/block'
+require_relative '../src/blockchain'
 
 RSpec.describe Block do
   let(:blockchain) { Blockchain.create! }
