@@ -1,1 +1,13 @@
+# IDE
 /.idea
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Coverage reports
+/coverage
+
+# RuboCop cache
+.rubocop-*
