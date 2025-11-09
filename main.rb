@@ -28,7 +28,7 @@ post '/chain/:id/block' do
   block_data = parse_json_body
   chain_id = params[:id]
   blockchain = find_block_chain(chain_id)
-  difficulty = block_data['difficulty'] || 2
+  difficulty = validate_difficulty(block_data['difficulty'])
   block = blockchain.add_block(block_data['data'], difficulty: difficulty)
 
   {
@@ -90,5 +90,12 @@ helpers do
     raise 'Chain not found' unless blockchain
 
     blockchain
+  end
+
+  def validate_difficulty(difficulty)
+    difficulty = difficulty.nil? ? 2 : difficulty.to_i
+    halt 422, { error: 'Difficulty must be a positive integer' }.to_json if difficulty <= 0
+    halt 422, { error: 'Difficulty must be between 1 and 10' }.to_json if difficulty > 10
+    difficulty
   end
 end
