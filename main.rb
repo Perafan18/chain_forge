@@ -1,12 +1,20 @@
 # frozen_string_literal: true
+
 require 'sinatra'
 require 'json'
 require 'mongoid'
 require 'dotenv/load'
 require_relative 'src/blockchain'
+
 Mongoid.load!('./config/mongoid.yml', ENV['ENVIRONMENT'] || :development)
 
+# Set default content type for JSON responses
+before do
+  content_type :json if request.post?
+end
+
 get '/' do
+  content_type :html
   'Hello to ChainForge!'
 end
 
@@ -20,7 +28,7 @@ post '/chain/:id/block' do
   block_data = parse_json_body
   chain_id = params[:id]
   blockchain = find_block_chain(chain_id)
-  block = blockchain.add_block(block_data)
+  block = blockchain.add_block(block_data['data'])
 
   {
     chain_id: chain_id,
@@ -37,7 +45,7 @@ post '/chain/:id/block/:block_id/valid' do
   block = blockchain.blocks.find(block_id)
   raise 'Block not found' unless block
 
-  valid = block.valid_data?(block_id, block_data)
+  valid = block.valid_data?(block_data['data'])
 
   {
     chain_id: chain_id,
