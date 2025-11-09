@@ -1,49 +1,59 @@
 # frozen_string_literal: true
+
 require 'sinatra'
+require 'sinatra/namespace'
 require 'json'
 require 'mongoid'
 require 'dotenv/load'
 require_relative 'src/blockchain'
+
 Mongoid.load!('./config/mongoid.yml', ENV['ENVIRONMENT'] || :development)
 
 get '/' do
   'Hello to ChainForge!'
 end
 
-post '/chain' do
-  blockchain = Blockchain.create
-  blockchain.save!
-  { id: blockchain.id }.to_json
-end
+# API v1
+namespace '/api/v1' do
+  before do
+    content_type :json
+  end
 
-post '/chain/:id/block' do
-  block_data = parse_json_body
-  chain_id = params[:id]
-  blockchain = find_block_chain(chain_id)
-  block = blockchain.add_block(block_data)
+  post '/chain' do
+    blockchain = Blockchain.create
+    blockchain.save!
+    { id: blockchain.id }.to_json
+  end
 
-  {
-    chain_id: chain_id,
-    block_id: block.id.to_s,
-    block_hash: block._hash
-  }.to_json
-end
+  post '/chain/:id/block' do
+    block_data = parse_json_body
+    chain_id = params[:id]
+    blockchain = find_block_chain(chain_id)
+    block = blockchain.add_block(block_data['data'])
 
-post '/chain/:id/block/:block_id/valid' do
-  block_data = parse_json_body
-  chain_id = params[:id]
-  block_id = params[:block_id]
-  blockchain = find_block_chain(chain_id)
-  block = blockchain.blocks.find(block_id)
-  raise 'Block not found' unless block
+    {
+      chain_id: chain_id,
+      block_id: block.id.to_s,
+      block_hash: block._hash
+    }.to_json
+  end
 
-  valid = block.valid_data?(block_id, block_data)
+  post '/chain/:id/block/:block_id/valid' do
+    block_data = parse_json_body
+    chain_id = params[:id]
+    block_id = params[:block_id]
+    blockchain = find_block_chain(chain_id)
+    block = blockchain.blocks.find(block_id)
+    raise 'Block not found' unless block
 
-  {
-    chain_id: chain_id,
-    block_id: block.id.to_s,
-    valid: valid
-  }.to_json
+    valid = block.valid_data?(block_data['data'])
+
+    {
+      chain_id: chain_id,
+      block_id: block.id.to_s,
+      valid: valid
+    }.to_json
+  end
 end
 
 helpers do
