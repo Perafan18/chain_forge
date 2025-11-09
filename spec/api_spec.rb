@@ -49,7 +49,7 @@ RSpec.describe 'ChainForge API' do
 
     it 'returns error when chain not found' do
       post '/chain/invalid_id/block', block_data.to_json, { 'CONTENT_TYPE' => 'application/json' }
-      expect(last_response.status).to eq(500)
+      expect(last_response.status).to eq(500) # rubocop:disable RSpecRails/HaveHttpStatus
     end
   end
 
