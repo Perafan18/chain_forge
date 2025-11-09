@@ -14,6 +14,9 @@ AllCops:
 Capybara:
   Enabled: false
 
+Capybara/RSpec/PredicateMatcher:
+  Enabled: false
+
 FactoryBot:
   Enabled: false
 
