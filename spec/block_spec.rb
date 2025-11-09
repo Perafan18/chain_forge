@@ -4,15 +4,15 @@ require 'rspec'
 require_relative '../src/blockchain'
 
 RSpec.describe Block do
+  subject do
+    described_class.create!(index:, data:, previous_hash: prev_hash, blockchain:)
+  end
+
   let(:blockchain) { Blockchain.create! }
   let(:index) { 1 }
   let(:data) { 'block data' }
   let(:prev_hash) { 'abcde12345' }
   let(:now) { Time.now.to_i }
-
-  subject do
-    described_class.create!(index:, data:, previous_hash: prev_hash, blockchain:)
-  end
 
   it 'initializes with correct attributes' do
     expect(subject.index).to eq(index)
@@ -23,7 +23,7 @@ RSpec.describe Block do
   describe '#hash' do
     it 'returns a SHA256 hash' do
       expect(subject._hash.size).to eq(64) # A SHA256 digest string is 64 characters long
-      expect(subject._hash).to_not include(' ') # A SHA256 digest string has no empty spaces
+      expect(subject._hash).not_to include(' ') # A SHA256 digest string has no empty spaces
     end
   end
 

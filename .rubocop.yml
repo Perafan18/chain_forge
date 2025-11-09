@@ -10,14 +10,14 @@ AllCops:
     - 'bin/**/*'
     - 'node_modules/**/*'
 
-# Disable Capybara and FactoryBot cops (not used in this project)
+# Disable Capybara, FactoryBot, and RSpecRails cops (not used in this project)
 Capybara:
   Enabled: false
 
-Capybara/RSpec/PredicateMatcher:
+FactoryBot:
   Enabled: false
 
-FactoryBot:
+RSpecRails:
   Enabled: false
 
 # Metrics
