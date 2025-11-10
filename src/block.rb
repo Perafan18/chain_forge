@@ -27,7 +27,7 @@ class Block
   field :previous_hash, type: String
   field :_hash, type: String, as: :hash
   field :nonce, type: Integer, default: 0
-  field :difficulty, type: Integer, default: 2
+  field :difficulty, type: Integer, default: -> { ENV.fetch('DEFAULT_DIFFICULTY', '2').to_i }
 
   belongs_to :blockchain
 
