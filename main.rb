@@ -5,9 +5,15 @@ require 'sinatra/namespace'
 require 'json'
 require 'mongoid'
 require 'dotenv/load'
+require 'rack/attack'
 require_relative 'src/blockchain'
+require_relative 'src/validators'
+require_relative 'config/rack_attack'
 
 Mongoid.load!('./config/mongoid.yml', ENV['ENVIRONMENT'] || :development)
+
+# Enable Rack::Attack middleware (disabled in test environment)
+use Rack::Attack unless ENV['ENVIRONMENT'] == 'test'
 
 # Set default content type for JSON responses
 before do
@@ -33,10 +39,14 @@ namespace '/api/v1' do
 
   post '/chain/:id/block' do
     block_data = parse_json_body
+    validation = BlockDataContract.new.call(block_data)
+
+    halt 400, { errors: validation.errors.to_h }.to_json if validation.failure?
+
     chain_id = params[:id]
     blockchain = find_block_chain(chain_id)
-    difficulty = validate_difficulty(block_data['difficulty'])
-    block = blockchain.add_block(block_data['data'], difficulty: difficulty)
+    difficulty = validation[:difficulty] || 2
+    block = blockchain.add_block(validation[:data], difficulty: difficulty)
 
     {
       chain_id: chain_id,
@@ -49,13 +59,17 @@ namespace '/api/v1' do
 
   post '/chain/:id/block/:block_id/valid' do
     block_data = parse_json_body
+    validation = BlockDataContract.new.call(block_data)
+
+    halt 400, { errors: validation.errors.to_h }.to_json if validation.failure?
+
     chain_id = params[:id]
     block_id = params[:block_id]
     blockchain = find_block_chain(chain_id)
     block = blockchain.blocks.find(block_id)
     raise 'Block not found' unless block
 
-    valid = block.valid_data?(block_data['data'])
+    valid = block.valid_data?(validation[:data])
 
     {
       chain_id: chain_id,
@@ -98,12 +112,5 @@ helpers do
     raise 'Chain not found' unless blockchain
 
     blockchain
-  end
-
-  def validate_difficulty(difficulty)
-    difficulty = difficulty.nil? ? 2 : difficulty.to_i
-    halt 422, { error: 'Difficulty must be a positive integer' }.to_json if difficulty <= 0
-    halt 422, { error: 'Difficulty must be between 1 and 10' }.to_json if difficulty > 10
-    difficulty
   end
 end
