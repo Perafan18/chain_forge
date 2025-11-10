@@ -45,7 +45,7 @@ namespace '/api/v1' do
 
     chain_id = params[:id]
     blockchain = find_block_chain(chain_id)
-    difficulty = validation[:difficulty] || 2
+    difficulty = validation[:difficulty] || ENV.fetch('DEFAULT_DIFFICULTY', '2').to_i
     block = blockchain.add_block(validation[:data], difficulty: difficulty)
 
     {
