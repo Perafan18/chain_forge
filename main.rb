@@ -45,7 +45,7 @@ namespace '/api/v1' do
 
     chain_id = params[:id]
     blockchain = find_block_chain(chain_id)
-    difficulty = validate_difficulty(block_data['difficulty'])
+    difficulty = validation[:difficulty] || 2
     block = blockchain.add_block(validation[:data], difficulty: difficulty)
 
     {
@@ -112,12 +112,5 @@ helpers do
     raise 'Chain not found' unless blockchain
 
     blockchain
-  end
-
-  def validate_difficulty(difficulty)
-    difficulty = difficulty.nil? ? 2 : difficulty.to_i
-    halt 422, { error: 'Difficulty must be a positive integer' }.to_json if difficulty <= 0
-    halt 422, { error: 'Difficulty must be between 1 and 10' }.to_json if difficulty > 10
-    difficulty
   end
 end
