@@ -17,10 +17,20 @@ class Blockchain
   # Add a new Block to this Blockchain
   #
   # @param data [Object] the data that needs to be added to the new Block
-  def add_block(data)
+  # @param difficulty [Integer] the mining difficulty (number of leading zeros)
+  # @return [Block] the newly created and mined Block
+  def add_block(data, difficulty: 2)
     integrity_valid? or raise 'Blockchain is not valid'
     last_block = blocks.last
-    blocks.create(index: last_block.index + 1, data:, previous_hash: last_block._hash)
+    block = blocks.build(
+      index: last_block.index + 1,
+      data:,
+      previous_hash: last_block._hash,
+      difficulty:
+    )
+    block.mine_block
+    block.save!
+    block
   end
 
   # Get the last block of this Blockchain
@@ -37,7 +47,8 @@ class Blockchain
   def integrity_valid?
     blocks.each_cons(2).all? do |previous_block, current_block|
       previous_block._hash == current_block.previous_hash &&
-        current_block._hash == current_block.calculate_hash
+        current_block._hash == current_block.calculate_hash &&
+        current_block.valid_hash?
     end
   end
 

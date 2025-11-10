@@ -1,0 +1,70 @@
+require:
+  - rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 3.2
+  NewCops: enable
+  Exclude:
+    - 'vendor/**/*'
+    - 'db/**/*'
+    - 'bin/**/*'
+    - 'node_modules/**/*'
+
+# Disable Capybara, FactoryBot, and RSpecRails cops (not used in this project)
+Capybara:
+  Enabled: false
+
+Capybara/RSpec/PredicateMatcher:
+  Enabled: false
+
+FactoryBot:
+  Enabled: false
+
+RSpecRails:
+  Enabled: false
+
+# Metrics
+Metrics/MethodLength:
+  Max: 15
+  Exclude:
+    - 'spec/**/*'
+
+Metrics/BlockLength:
+  Max: 60
+  Exclude:
+    - 'spec/**/*'
+    - 'config/**/*'
+  AllowedMethods:
+    - namespace
+
+# Style
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+
+# Layout
+Layout/LineLength:
+  Max: 120
+  AllowedPatterns:
+    - '^\s*#'  # Comments
+
+# RSpec
+RSpec/ExampleLength:
+  Max: 12
+
+RSpec/MultipleExpectations:
+  Max: 10
+
+RSpec/DescribeClass:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Max: 3
+
+RSpec/NamedSubject:
+  Enabled: false
