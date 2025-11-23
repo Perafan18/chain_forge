@@ -350,7 +350,7 @@ Location: `.github/workflows/ci.yml`
 3. Create validation contract in `src/validators.rb` (if needed)
 4. Add tests in `spec/api_spec.rb`
 5. Update README.md API Reference
-6. Update API_DOCUMENTATION.md
+6. Update docs/api/reference.md
 7. Run tests and RuboCop
 
 ### Modifying Block/Blockchain Models
@@ -370,7 +370,7 @@ Location: `.github/workflows/ci.yml`
 ### Adjusting Rate Limits
 1. Edit `config/rack_attack.rb`
 2. Update README.md Rate Limiting table
-3. Update API_DOCUMENTATION.md
+3. Update docs/api/reference.md and docs/api/rate-limiting.md
 4. Consider impact on user experience
 5. Test with actual API calls
 
@@ -379,7 +379,7 @@ Location: `.github/workflows/ci.yml`
 ### Common Issues
 
 **MongoDB Connection Errors**
-- Ensure MongoDB is running: `docker-compose up -d mongodb`
+- Ensure MongoDB is running: `docker-compose up -d db`
 - Check `.env` has correct MONGO_DB_HOST, PORT, NAME
 - For Docker: use `host: mongodb` not `localhost`
 
@@ -432,13 +432,22 @@ chain_forge/
 │   └── workflows/
 │       └── ci.yml       # GitHub Actions CI pipeline
 └── docs/
-    ├── README.md        # Main user documentation
-    ├── CLAUDE.md        # This file (Claude Code guidance)
-    ├── CHANGELOG.md     # Version history
-    ├── CONTRIBUTING.md  # Contribution guidelines
-    ├── SECURITY.md      # Security policies
-    ├── API_DOCUMENTATION.md  # Complete API reference
-    └── DEPLOYMENT.md    # Production deployment guide
+    ├── README.md                          # Documentation index
+    ├── CLAUDE.md                          # This file (Claude Code guidance)
+    ├── CHANGELOG.md                       # Version history
+    ├── CONTRIBUTING.md                    # Contribution guidelines
+    ├── SECURITY.md                        # Security policies
+    ├── getting-started/                   # Tutorial files
+    ├── architecture/                      # Architecture documentation
+    ├── api/
+    │   ├── reference.md                   # Complete API reference
+    │   ├── examples.md                    # Code examples
+    │   └── rate-limiting.md               # Rate limiting guide
+    └── guides/
+        ├── development-setup.md
+        ├── testing-guide.md
+        ├── deployment-guide.md            # Production deployment guide
+        └── troubleshooting.md
 ```
 
 ## Educational Objectives

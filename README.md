@@ -41,7 +41,7 @@ cp .env.example .env
 
 # Start MongoDB (or use Docker)
 brew services start mongodb-community  # macOS
-# Or: docker-compose up -d mongodb
+# Or: docker-compose up -d db
 
 # Run application
 ruby main.rb -p 1910

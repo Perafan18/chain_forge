@@ -151,7 +151,7 @@ mongosh --eval "db.version()"
 
 ```bash
 # Start MongoDB only
-docker-compose up -d mongodb
+docker-compose up -d db
 
 # Verify
 docker ps  # Should show mongodb container
@@ -544,7 +544,7 @@ brew services start mongodb-community
 sudo systemctl start mongod
 
 # Docker
-docker-compose up -d mongodb
+docker-compose up -d db
 ```
 
 **Problem:** Connection refused

@@ -119,7 +119,7 @@ brew services start mongodb-community
 sudo systemctl start mongod
 
 # Docker
-docker-compose up -d mongodb
+docker-compose up -d db
 ```
 
 **2. Verify port:**
