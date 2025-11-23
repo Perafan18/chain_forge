@@ -53,7 +53,7 @@ ruby main.rb -p 1910
 docker-compose up
 ```
 
-Application will be available at http://localhost:1910
+Application will be available at <http://localhost:1910>
 
 ### Your First Blockchain
 
