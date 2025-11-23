@@ -66,8 +66,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **CHANGELOG.md**: This file, version history tracking
 - **CONTRIBUTING.md**: Contribution guidelines and workflow
 - **SECURITY.md**: Security policies and best practices
-- **API_DOCUMENTATION.md**: Complete API reference with examples
-- **DEPLOYMENT.md**: Production deployment guide
+- **docs/api/reference.md**: Complete API reference with examples
+- **docs/guides/deployment-guide.md**: Production deployment guide
 
 ### Changed
 - **Block Hash**: Now includes nonce in hash calculation
