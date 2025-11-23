@@ -106,7 +106,7 @@ Comprehensive documentation is available in the [`docs/`](docs/) folder:
 - **[CHANGELOG](docs/CHANGELOG.md)** - Version history
 - **[CONTRIBUTING](docs/CONTRIBUTING.md)** - How to contribute
 - **[SECURITY](docs/SECURITY.md)** - Security policies
-- **[CLAUDE](docs/CLAUDE.md)** - Claude Code development guide
+- **[CLAUDE](CLAUDE.md)** - Claude Code development guide
 
 ## API Endpoints
 

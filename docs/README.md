@@ -30,7 +30,7 @@ Welcome to the complete documentation for ChainForge, an educational blockchain 
 - [CHANGELOG](CHANGELOG.md) - Version history and release notes
 - [CONTRIBUTING](CONTRIBUTING.md) - How to contribute to the project
 - [SECURITY](SECURITY.md) - Security policies and vulnerability reporting
-- [CLAUDE](CLAUDE.md) - Claude Code development guidance
+- [CLAUDE](../CLAUDE.md) - Claude Code development guidance
 
 ## What is ChainForge?
 
