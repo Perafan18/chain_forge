@@ -6,14 +6,14 @@ module Rack
     # Throttle all requests by IP (60 requests per minute)
     throttle('req/ip', limit: 60, period: 60, &:ip)
 
-    # Throttle POST requests to /chain by IP (10 per minute)
+    # Throttle POST requests to /api/v1/chain by IP (10 per minute)
     throttle('chain/ip', limit: 10, period: 60) do |req|
-      req.ip if req.path == '/chain' && req.post?
+      req.ip if req.path == '/api/v1/chain' && req.post?
     end
 
     # Throttle POST requests to block creation (30 per minute)
     throttle('block/ip', limit: 30, period: 60) do |req|
-      req.ip if req.path.match?(%r{^/chain/.+/block$}) && req.post?
+      req.ip if req.path.match?(%r{^/api/v1/chain/.+/block$}) && req.post?
     end
 
     # Custom response for throttled requests

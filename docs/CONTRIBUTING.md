@@ -32,7 +32,7 @@ cp .env.example .env
 # Edit .env: set DEFAULT_DIFFICULTY, MongoDB config
 
 # Start MongoDB
-docker-compose up -d mongodb
+docker-compose up -d db
 
 # Run tests
 bundle exec rspec
@@ -176,7 +176,7 @@ Update documentation when:
 - **README.md**: User-facing features and API
 - **CLAUDE.md**: Developer architecture and workflow
 - **CHANGELOG.md**: All changes (following Keep a Changelog format)
-- **API_DOCUMENTATION.md**: Complete endpoint changes
+- **docs/api/reference.md**: Complete endpoint changes
 - **Inline comments**: Complex logic
 
 ## Educational Focus
@@ -249,7 +249,7 @@ When adding API endpoints:
 2. Add rate limiting in `config/rack_attack.rb`
 3. Create validation contract in `src/validators.rb`
 4. Add tests in `spec/api_spec.rb`
-5. Update README.md and API_DOCUMENTATION.md
+5. Update README.md and docs/api/reference.md
 6. Consider backward compatibility
 
 ### Breaking Changes
